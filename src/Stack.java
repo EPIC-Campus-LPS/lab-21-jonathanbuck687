@@ -1,3 +1,4 @@
+import java.util.EmptyStackException;
 public class Stack {
     private int[] nums;
     public Stack(){
@@ -40,7 +41,13 @@ public class Stack {
      * @return the top of the stack
      */
     public int peek(){
-        return nums[nums.length - 1];
+        if (nums.length >= 1) {
+            return nums[nums.length - 1];
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        return -1;
     }
 
     /**

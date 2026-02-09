@@ -33,27 +33,64 @@ public class ReversePolishNotation {
                 output += input.substring(i, i + 1);
             }
             else if (input.substring(i, i + 1).equals("+")) {
-                s.push(0);
-            }
-            else if (input.substring(i, i + 1).equals("-")) {
-                s.push(1);
-            }
-            else if (input.substring(i, i + 1).equals("/")) {
-                if (s.peek() < 2) {
-                    output += input.substring(i, i + 1);
-                    if (s.peek() == 1) {
-                        s.pop();
-                        output += "-";
-                    }
-                    else if (s.peek() == 0) {
+                while (s.peek() >= 0) {
+                    if (s.peek() == 0) {
                         s.pop();
                         output += "+";
                     }
+                    else if (s.peek() == 1) {
+                        s.pop();
+                        output += "-";
+                    }
+                    else if (s.peek() == 2) {
+                        s.pop();
+                        output += "*";
+                    }
+                    else if (s.peek() == 3) {
+                        s.pop();
+                        output += "/";
+                    }
+                    if (s.peek() == -1) {
+                        break;
+                    }
                 }
+                s.push(0);
+            }
+            else if (input.substring(i, i + 1).equals("-")) {
+                while (s.peek() >= 0) {
+                    if (s.peek() == 0) {
+                        s.pop();
+                        output += "+";
+                    }
+                    else if (s.peek() == 1) {
+                        s.pop();
+                        output += "-";
+                    }
+                    else if (s.peek() == 2) {
+                        s.pop();
+                        output += "*";
+                    }
+                    else if (s.peek() == 3) {
+                        s.pop();
+                        output += "/";
+                    }
+                    if (s.peek() == -1) {
+                        break;
+                    }
+                }
+                s.push(1);
+            }
+            else if (input.substring(i, i + 1).equals("/")) {
+                s.push(3);
             }
             else if (input.substring(i, i + 1).equals("*")) {
-                if (s.peek() < 2) {
-                    output += input.substring(i, i + 1);
+                s.push(2);
+            }
+            else if (input.substring(i, i + 1).equals("(")) {
+                s.push(4);
+            }
+            else if (input.substring(i, i + 1).equals(")")) {
+                while (s.peek() < 4) {
                     if (s.peek() == 1) {
                         s.pop();
                         output += "-";
@@ -65,5 +102,6 @@ public class ReversePolishNotation {
                 }
             }
         }
+        return output;
     }
 }
