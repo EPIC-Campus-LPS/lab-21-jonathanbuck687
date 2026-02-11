@@ -90,7 +90,7 @@ public class ReversePolishNotation {
                 s.push(4);
             }
             else if (input.substring(i, i + 1).equals(")")) {
-                while (s.peek() < 4) {
+                while (s.peek() != 4) {
                     if (s.peek() == 1) {
                         s.pop();
                         output += "-";
@@ -98,6 +98,17 @@ public class ReversePolishNotation {
                     else if (s.peek() == 0) {
                         s.pop();
                         output += "+";
+                    }
+                    else if (s.peek() == 2){
+                        s.pop();
+                        output += "*";
+                    }
+                    else if (s.peek() == 3){
+                        s.pop();
+                        output += "/";
+                    }
+                    else {
+                        s.pop();
                     }
                 }
             }
