@@ -1,22 +1,31 @@
 import java.util.ArrayList;
-
+import java.util.EmptyStackException;
+import java.util.Stack;
 public class ReversePolishNotation {
     public static int evaluatePostfix(String input) {
-        Stack s = new Stack();
+        Stack<Integer> s = new Stack<>();
         String temp  = "";
-        for (int i = 0; i < input.length()  - 1; i++) {
+        for (int i = 0; i < input.length(); i++) {
             temp = input.substring(i, i + 1);
             if (temp.equals("+")) {
-                s.push(s.pop() + s.pop());
+                int firstNum = s.pop();
+                int nextNum = s.pop();
+                s.push(firstNum + nextNum);
             }
             else if (temp.equals("-")) {
-                s.push(s.pop() - s.pop());
+                int firstNum = s.pop();
+                int nextNum = s.pop();
+                s.push(nextNum - firstNum);
             }
             else if (temp.equals("/")) {
-                s.push(s.pop() / s.pop());
+                int firstNum = s.pop();
+                int nextNum = s.pop();
+                s.push(nextNum / firstNum);
             }
             else if (temp.equals("*")) {
-                s.push(s.pop() * s.pop());
+                int firstNum = s.pop();
+                int nextNum = s.pop();
+                s.push(firstNum * nextNum);
             }
             else {
                 s.push(Integer.parseInt(temp));
@@ -25,93 +34,58 @@ public class ReversePolishNotation {
         return s.peek();
     }
     public static String infixToPostfix(String input) {
-        Stack s = new Stack();
+        Stack<Integer> s = new Stack<>();
         String output = "";
-        String numbers = "0123456789";
-        for (int i = 0; i < input.length() - 1; i++) {
-            if (numbers.contains(input.substring(i, i + 1))) {
+        String letters = "qwertyuiopasdfghjklzxcvbnm";
+        String temp = "";
+        String[] tempArraries = {"+","-","*", "/"};
+        int tempSize = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (letters.contains(input.substring(i, i + 1))) {
                 output += input.substring(i, i + 1);
+                if (i == input.length()) {
+                    while (!s.isEmpty()) {
+                        output += tempArraries[s.peek()];
+                        s.pop();
+                    }
+                }
             }
             else if (input.substring(i, i + 1).equals("+")) {
-                while (s.peek() >= 0) {
-                    if (s.peek() == 0) {
-                        s.pop();
-                        output += "+";
-                    }
-                    else if (s.peek() == 1) {
-                        s.pop();
-                        output += "-";
-                    }
-                    else if (s.peek() == 2) {
-                        s.pop();
-                        output += "*";
-                    }
-                    else if (s.peek() == 3) {
-                        s.pop();
-                        output += "/";
-                    }
-                    if (s.peek() == -1) {
-                        break;
+                for (int j = 0; j < s.size(); j++) {
+                    if (s.peek() > 1 || s.isEmpty()) {
+                        output += s.pop();
                     }
                 }
                 s.push(0);
             }
             else if (input.substring(i, i + 1).equals("-")) {
-                while (s.peek() >= 0) {
-                    if (s.peek() == 0) {
-                        s.pop();
-                        output += "+";
-                    }
-                    else if (s.peek() == 1) {
-                        s.pop();
-                        output += "-";
-                    }
-                    else if (s.peek() == 2) {
-                        s.pop();
-                        output += "*";
-                    }
-                    else if (s.peek() == 3) {
-                        s.pop();
-                        output += "/";
-                    }
-                    if (s.peek() == -1) {
-                        break;
-                    }
+                if (s.isEmpty()) {
+                    throw new EmptyStackException();
                 }
-                s.push(1);
+                if(s.peek() > 1) {
+                    s.push(1);
+                }
+                else {
+                    output += "-";
+                }
             }
             else if (input.substring(i, i + 1).equals("/")) {
-                s.push(3);
-            }
-            else if (input.substring(i, i + 1).equals("*")) {
-                s.push(2);
-            }
-            else if (input.substring(i, i + 1).equals("(")) {
-                s.push(4);
-            }
-            else if (input.substring(i, i + 1).equals(")")) {
-                while (s.peek() != 4) {
-                    if (s.peek() == 1) {
-                        s.pop();
-                        output += "-";
-                    }
-                    else if (s.peek() == 0) {
-                        s.pop();
-                        output += "+";
-                    }
-                    else if (s.peek() == 2){
-                        s.pop();
-                        output += "*";
-                    }
-                    else if (s.peek() == 3){
-                        s.pop();
-                        output += "/";
-                    }
-                    else {
-                        s.pop();
-                    }
+                if (s.peek() < 2) {
+                    s.push(3);
+                }
+                else {
+                    output += "/";
                 }
             }
+            else if (input.substring(i, i + 1).equals("*")) {
+                 if (s.peek() < 2) {
+                     s.push(2);
+                 }
+                 else {
+                     output += "*";
+                 }
+            }
+
         }
         return output;
     }
