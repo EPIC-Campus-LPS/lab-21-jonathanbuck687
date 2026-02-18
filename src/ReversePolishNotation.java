@@ -43,7 +43,8 @@ public class ReversePolishNotation {
         for (int i = 0; i < input.length(); i++) {
             if (letters.contains(input.substring(i, i + 1))) {
                 output += input.substring(i, i + 1);
-                if (i == input.length()) {
+
+                if (i == input.length() - 1) {
                     while (!s.isEmpty()) {
                         output += tempArraries[s.peek()];
                         s.pop();
@@ -51,38 +52,41 @@ public class ReversePolishNotation {
                 }
             }
             else if (input.substring(i, i + 1).equals("+")) {
-                for (int j = 0; j < s.size(); j++) {
-                    if (s.peek() > 1 || s.isEmpty()) {
-                        output += s.pop();
+                if (!s.isEmpty()) {
+                    for (int j = 0; j < s.size(); j++) {
+                        if (!s.isEmpty()) {
+                            output += tempArraries[s.pop()];
+                        }
                     }
                 }
                 s.push(0);
             }
             else if (input.substring(i, i + 1).equals("-")) {
-                if (s.isEmpty()) {
-                    throw new EmptyStackException();
+                for (int j = 0; j < s.size(); j++) {
+                    if (!s.isEmpty()) {
+                        output += tempArraries[s.pop()];
+                    }
                 }
-                if(s.peek() > 1) {
-                    s.push(1);
-                }
-                else {
-                    output += "-";
-                }
+                s.push(1);
             }
             else if (input.substring(i, i + 1).equals("/")) {
                 if (s.peek() < 2) {
                     s.push(3);
+
                 }
                 else {
                     output += "/";
+                    s.pop();
                 }
             }
             else if (input.substring(i, i + 1).equals("*")) {
                  if (s.peek() < 2) {
                      s.push(2);
+
                  }
                  else {
                      output += "*";
+                     s.pop();
                  }
             }
 

@@ -10,7 +10,7 @@ class ReversePolishNotationTest {
 
     @org.junit.jupiter.api.Test
     void infixToPostfix() {
-        String input = "a+b";
-        assertEquals("ab+", ReversePolishNotation.infixToPostfix(input));
+        String input = "a+b*c+d*e+f*g";
+        assertEquals("abc*+de*+fg*+", ReversePolishNotation.infixToPostfix(input));
     }
 }
