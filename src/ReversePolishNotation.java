@@ -54,9 +54,7 @@ public class ReversePolishNotation {
             else if (input.substring(i, i + 1).equals("+")) {
                 if (!s.isEmpty()) {
                     for (int j = 0; j < s.size(); j++) {
-                        if (!s.isEmpty()) {
-                            output += tempArraries[s.pop()];
-                        }
+                        output += tempArraries[s.pop()];
                     }
                 }
                 s.push(0);
