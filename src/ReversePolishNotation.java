@@ -1,7 +1,14 @@
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Stack;
+
+
 public class ReversePolishNotation {
+    /**
+     * takes a postfix input and evaluated it
+     * @param input
+     * @return value of input
+     */
     public static int evaluatePostfix(String input) {
         Stack<Integer> s = new Stack<>();
         String temp  = "";
@@ -33,6 +40,12 @@ public class ReversePolishNotation {
         }
         return s.peek();
     }
+
+    /**
+     * takes an infix expression and converts it into postfix
+     * @param input
+     * @return postfix representaion of input
+     */
     public static String infixToPostfix(String input) {
         Stack<Integer> s = new Stack<>();
         String output = "";
@@ -53,14 +66,14 @@ public class ReversePolishNotation {
             }
             else if (input.substring(i, i + 1).equals("+")) {
                 if (!s.isEmpty()) {
-                    for (int j = 0; j < s.size(); j++) {
+                    for (int j = 0; j < s.size() + 1; j++) {
                         output += tempArraries[s.pop()];
                     }
                 }
                 s.push(0);
             }
             else if (input.substring(i, i + 1).equals("-")) {
-                for (int j = 0; j < s.size(); j++) {
+                for (int j = 0; j < s.size() + 1; j++) {
                     if (!s.isEmpty()) {
                         output += tempArraries[s.pop()];
                     }
